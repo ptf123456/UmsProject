@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd
+							http://www.springframework.org/schema/tx
+							http://www.springframework.org/schema/tx/spring-tx.xsd
+							http://www.springframework.org/schema/aop
+							http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 设定 jdbc.properties 文件路径 [begin] -->
+	<context:property-placeholder location="classpath*:/jdbc.properties"/>
+	<!-- 设定 jdbc.properties 文件路径 [end] -->
+
+	<!--spring框架处理不了请求需要将@controller过滤掉-->
+	<!-- 设定 Spring 扫描注解的基础包路径 [begin] -->
+	<context:component-scan base-package="cn.ekgc.ums">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+	</context:component-scan>
+	<!-- 设定 Spring 扫描注解的基础包路径 [end] -->
+
+	<!-- 配置 DataSource 对应的 Bean 信息 [begin] -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+		<property name="minIdle" value="${druid.minIdle}"/>
+		<property name="maxActive" value="${druid.maxActive}"/>
+		<property name="initialSize" value="${druid.initialSize}"/>
+		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}"/>
+		<property name="maxEvictableIdleTimeMillis" value="${druid.maxEvictableIdleTimeMillis}"/>
+	</bean>
+	<!-- 配置 DataSource 对应的 Bean 信息 [end] -->
+
+	<!-- 配置 SqlSessionFactoryBean 对应的 Bean 信息 [begin] -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 依赖注入datasource信息 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 设定所有映射文件的基本路径 -->
+		<property name="mapperLocations" value="classpath*:/mapper/*.mapper.xml"/>
+		<!-- 配置 POJO 类别名基础包路径 -->
+		<property name="typeAliasesPackage" value="cn.ekgc.ums.pojo.entity"/>
+	</bean>
+	<!-- 配置 SqlSessionFactoryBean 对应的 Bean 信息 [end] -->
+
+	<!-- 配置 MyBatis 扫描数据持久层接口的 Bean 信息 [begin] -->
+	<bean id="scannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 配置 SqlSessionFactoryBean 所对应的 id 值 -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean"/>
+		<!-- 设定所有数据持久层接口所在路径 -->
+		<property name="basePackage" value="cn.ekgc.ums.dao"/>
+	</bean>
+	<!-- 配置 MyBatis 扫描数据持久层接口的 Bean 信息 [end] -->
+
+	<!-- 配置 Spring 所提供的事务处理机制对应的 Bean 的信息 [begin] -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- 配置 Spring 所提供的事务处理机制对应的 Bean 的信息 [end] -->
+
+	<!-- 配置采用注解的实行来完成事务处理机制 [begin] -->
+	<!--
+	所谓的注解，就是在需要 Spring 管理的类上增加特殊的注解，这样当 Spring 扫描到这些注解的时候，
+	就会自动的将这些类加入到 Spring 的管理中，来帮助开发人员自动创建对象。
+	由于 Spring 所采用的 AOP 默认为 JDK 代理，该代理模式必须作用在接口上，
+	但是事务注解一旦增加到接口上，那么该接口就交给 Spring 管理，并且创建对象，
+	而接口无法创建对象，因此在采用注解形式管理事务的时候，就必须明确的通知 Spring 将代理模式切换为 CGLIB
+	-->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+	<!-- 配置采用注解的实行来完成事务处理机制 [end] -->
+	</beans>

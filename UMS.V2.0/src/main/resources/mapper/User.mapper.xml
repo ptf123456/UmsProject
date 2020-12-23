@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ekgc.ums.dao.UserDao">
+	<select id="findUserListQuery" parameterType="User" resultMap="UserMap">
+		select
+			  id,
+			  name,
+			  cellphone,
+			  createTime,
+			  updateTime
+		from
+			system_user
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id!=null">id=#{id}</if>
+				<if test="name!=null">name=#{name}</if>
+				<if test="cellphone!=null">cellphone=#{cellphone}</if>
+			</trim>
+		</where>
+	</select>
+
+	<insert id="saveUser" parameterType="User">
+		insert into system_user(
+		<trim suffixOverrides=",">
+			<if test="name!=null">name ,</if>
+			<if test="cellphone!=null">cellphone ,</if>
+		</trim>
+		) values(
+		<trim suffixOverrides=",">
+			<if test="name!=null">#{name} ,</if>
+			<if test="cellphone!=null">#{cellphone} ,</if>
+		</trim>
+		)
+	</insert>
+
+	<update id="updateUser" parameterType="User">
+		update system_user
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name!=null">name=#{name} ,</if>
+				<if test="cellphone!=null">cellphone=#{cellphone} ,</if>
+			</trim>
+		</set>
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id!=null">id=#{id} and</if>
+				<if test="name!=null">name=#{name} and</if>
+				<if test="cellphone!=null">cellphone=#{cellphone} and</if>
+			</trim>
+		</where>
+	</update>
+
+	<delete id="deleteUser" parameterType="User">
+		delete from system_user
+		<where>
+			<trim suffixOverrides=",">
+				<if test="id!=null">id=#{id} ,</if>
+				<if test="name!=null">name=#{name} ,</if>
+				<if test="cellphone!=null">cellphone=#{cellphone} ,</if>
+			</trim>
+		</where>
+	</delete>
+	<resultMap id="UserMap" type="User">
+		<id property="id" javaType="long" column="id"/>
+		<result property="name" javaType="string" column="name"/>
+		<result property="cellphone" javaType="string" column="cellphone"/>
+		<result property="createTime" javaType="date" column="createTime"/>
+		<result property="updateTime" javaType="date" column="updateTime"/>
+	</resultMap>
+
+</mapper>

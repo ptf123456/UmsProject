@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<script type="application/javascript" src="../static/axios-0.21.0.min.js"></script>
+		<script type="application/javascript" src="../static/vue-2.6.12.min.js"></script>
+	</head>
+	<body>
+		<div id="mydiv">
+			<input type="text" v-model="name">
+			<input type="text" v-model="cellphone">
+			<input type="password" v-model="password" >
+			<button type="button" @click="save" >保存</button>
+		</div>
+		<script type="application/javascript">
+			new Vue({
+				el: "#mydiv",
+				data:{
+					name:"",
+					cellphone:"",
+					password:""
+				},
+				methods:{
+					save: function () {
+						axios({
+							url:"http://localhost:22222/user/register",
+							type:"post",
+							data:{
+								"name":this.name,
+								"cellphone":this.cellphone,
+								"password":this.password
+							}
+						}).then(function (response){
+							var result = response.data;
+							alert(result);
+						})
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

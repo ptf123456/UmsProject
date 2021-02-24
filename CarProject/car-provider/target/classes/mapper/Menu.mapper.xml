@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ekgc.car.dao.MenuDao">
+	<select id="findMenuListForIndexByQuery" parameterType="Menu" resultMap="resultMap">
+		select
+			cd. id ,
+			cd. text ,
+			cd. code ,
+			cd. url ,
+			cd. icon ,
+			cd. status ,
+			cd. createUser ,
+			cd. createTime ,
+			cd. updateUser ,
+			cd. updateTime
+		from  car_menu  cd
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">cd. id=#{id} and</if>
+				<if test="text != null">cd. text=#{text} and</if>
+				<if test="code != null">cd. code=#{code} and</if>
+				<if test="url != null">cd. url=#{url} and</if>
+				<if test="icon != null">cd. icon=#{icon} and</if>
+				<if test="status != null">cd. status=#{status} and</if>
+			</trim>
+		</where>
+		order by cd. createTime desc
+	</select>
+
+	<insert id="save"  parameterType="Menu">
+		insert into car_menu(
+		<trim suffixOverrides=",">
+			<if test="id != null">id,</if>
+			<if test="text != null">text ,</if>
+			<if test="code != null">code ,</if>
+			<if test="url != null">url ,</if>
+			<if test="icon != null">icon ,</if>
+			<if test="status != null">status,</if>
+		</trim>
+		) values (
+		<trim suffixOverrides=",">
+			<if test="id != null">#{id},</if>
+			<if test="text != null">#{text} ,</if>
+			<if test="code != null">#{code} ,</if>
+			<if test="url != null"> #{url} ,</if>
+			<if test="icon != null">#{icon} ,</if>
+			<if test="status != null">#{status} ,</if>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="Menu">
+		update car_menu
+		<set>
+			<trim suffixOverrides=",">
+				<if test="id != null">id=#{id} ,</if>
+				<if test="text != null">text=#{text} ,</if>
+				<if test="code != null">code=#{code} ,</if>
+				<if test="url != null">url=#{url} ,</if>
+				<if test="icon != null">icon=#{icon} ,</if>
+				<if test="status != null">status=#{status} ,</if>
+			</trim>
+		</set>
+		<where>
+			<trim suffixOverrides="and">
+				<if test="id != null">id=#{id} and</if>
+			</trim>
+		</where>
+	</update>
+
+	<resultMap id="resultMap" type="Menu" >
+		<id property="id" javaType="String" column="id"></id>
+		<result property="text" javaType="String" column="text"></result>
+		<result property="code" javaType="String" column="code"></result>
+		<result property="url" javaType="String" column="url"></result>
+		<result property="icon" javaType="String" column="icon"></result>
+		<result property="status" javaType="Integer" column="status"></result>
+		<result property="createUser" javaType="String" column="createUser"></result>
+		<result property="createTime" javaType="date" column="createTime"></result>
+		<result property="updateUser" javaType="String" column="updateUser"></result>
+		<result property="updateTime" javaType="date" column="updateTime"></result>
+	</resultMap>
+
+
+</mapper>

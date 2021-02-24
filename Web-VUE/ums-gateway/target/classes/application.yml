@@ -1,0 +1,8 @@
+### 配置项目启动的端口号
+server:
+  port: 8888
+###### 配置项目应用名
+spring:
+  application:
+    name: ums-gateway
+##### 配置网关信息

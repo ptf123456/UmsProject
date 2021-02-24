@@ -1,0 +1,18 @@
+### 配置项目启动的端口号
+server:
+  port: 22222
+###### 配置项目应用名
+spring:
+  application:
+    name: ums-consumer
+  main:
+    #### 允许命名相同的名称 Sprig MVC默认true Spring Cloud默认false
+    allow-bean-definition-overriding: true
+##### 配置eureka client信息
+eureka:
+  client:
+    ### 配置eureka-service注册中心的地址
+    service-url:
+      defaultZone: http://localhost:9999/eureka/
+
+

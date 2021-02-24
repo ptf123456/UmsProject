@@ -1,0 +1,23 @@
+### 配置项目启动的端口号
+server:
+  port: 9999
+###### 配置项目应用名
+spring:
+  application:
+    name: ums-server
+  #### 配置Spring Bean重命名规则
+  main:
+    allow-bean-definition-overriding: true
+##### 配置eureka server信息
+eureka:
+  #### 配置注册中心
+  instance:
+    hostname: localhost
+  client:
+    #### 对于注册中心来说，也可以将自身的服务注册到其中，但是这样会降低注册中心的工作效率，因此禁止注册中心将自己的服务进行注册
+    register-with-eureka: false
+    #### 对于一个庞大的项目，是可以有多个注册中心的，这些注册中心可以相互进行服务发现，但是当只有一个注册中心是，则不需要进行交互
+    fetch-registry: false
+    #### 设定注册中心所暴露的ip地址
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka

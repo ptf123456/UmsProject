@@ -1,0 +1,41 @@
+.container {
+	width: 500px;
+	margin: 100px auto;
+	border: 1px solid yellowgreen;
+}
+header{
+	width: 100px;
+	height: 80px;
+	line-height: 80px;
+}
+header h1{
+	font: bold normal 30px "Microsoft Yi Baiti";
+	text-align: center;
+	margin: 50px 100px;
+}
+label{
+	font: bold normal 20px "Microsoft Yi Baiti";
+}
+.form-control{
+	width: 300px;
+	height: 30px;
+	padding: 0px 10px;
+	border-radius: 5px;
+	font: bold normal 16px "Microsoft Yi Baiti";
+	margin: 10px 0px ;
+}
+button{
+	width: 100px;
+	height: 50px;
+	float: right;
+	font: bold normal 14px "Microsoft Yi Baiti";
+	color: coral;
+	border-radius: 10px;
+	background: chocolate;
+	border: 0px solid cornflowerblue;
+	margin: 10px 0px ;
+}
+a{
+	text-decoration: none;
+
+}

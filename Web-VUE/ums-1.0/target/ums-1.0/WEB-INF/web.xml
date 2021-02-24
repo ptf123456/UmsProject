@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+	<!--配置用户功能servlet信息-->
+	<servlet>
+		<servlet-name>umsServlet</servlet-name>
+		<servlet-class>
+			cn.ekgc.ums.controller.UserController
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>umsServlet</servlet-name>
+		<url-pattern>/user/*</url-pattern>
+	</servlet-mapping>
+
+	<!--配置编码过滤器-->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+			cn.ekgc.ums.util.filter.EncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!--配置请求URI截取过滤器-->
+	<filter>
+		<filter-name>requestURI</filter-name>
+		<filter-class>
+			cn.ekgc.ums.util.filter.RequestURISubFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestURI</filter-name>
+		<url-pattern>/user/*</url-pattern>
+	</filter-mapping>
+
+	<!--配置安全认证过滤器-->
+	<filter>
+		<filter-name>securityFilter</filter-name>
+		<filter-class>
+			cn.ekgc.ums.util.filter.SecurityFilter
+		</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>securityFilter</filter-name>
+		<url-pattern>/user/*</url-pattern>
+	</filter-mapping>
+</web-app>

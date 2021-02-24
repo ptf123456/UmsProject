@@ -1,0 +1,22 @@
+### 配置项目数据链接信息
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ums3.0_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=True
+    username: root
+    password: root
+    ### 配置所使用的数据库连接池类型
+    type: com.alibaba.druid.pool.DruidDataSource
+    ### 配置 Druid 数据库连接池信息
+    druid:
+      min-idle: 3
+      max-active: 15
+      initial-size: 5
+      min-evictable-idle-time-millis: 30000
+      max-evictable-idle-time-millis: 60000
+### 配置 MyBatis 信息
+mybatis:
+  ### 设定 MyBatis 映射文件路径
+  mapper-locations: classpath:/mapper/*.Mapper.xml
+  ### 实体基础包信息
+  type-aliases-package: cn.ekgc.ums.pojo.entity

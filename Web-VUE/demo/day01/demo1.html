@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<script type="application/javascript" src="../static/js/vue.min.js"></script>
+		<style type="text/css" rel="stylesheet">
+			.myDiv {
+				width: 100px;
+				height: 100px;
+				background: green;
+				margin: 100px auto;
+				border-radius: 50%;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 id="myId">{{message}}</h1>
+
+		<button id="myBtn" type="button" v-on:click="testClick">sh使用Vue绑定点击事件</button>
+
+		<div id="myDiv" v-html="htmlMessage"></div>
+
+		<h1 id="my">{{num + 100}}</h1>
+
+		<h1 id="bind">{{name.toUpperCase()}}</h1>
+
+		<h1 id="case">{{(num % 2 == 0)? "这是一个偶数":"这是一个奇数"}}</h1>
+
+		<h1>使用v-on绑定事件</h1>
+
+		<!--v-on:click="showDiv" 缩写@-->
+		<div id="show"  @click="showDiv" style="width: 100px; height: 100px; background-color: blue"></div>
+
+		<h1>使用v-if 和 v-else实现</h1>
+
+		<div id="myS">
+			<h1  v-if="isSuccess" class="target">万钢</h1>
+			<h1  v-else class="target">蛋蛋</h1>
+		</div>
+
+		<!--对于v-show 来说 当boolean值为false，仅仅是将该元素的display设为none 不显示。
+		而对于v-if 或者是v-else 则直接不会在html上渲染元素，也就是该元素不存在-->
+		<div id="myO">
+			<h1  v-if="isSuccess" class="target">万钢</h1>
+			<h1  v-else class="target">蛋蛋</h1>
+			<h1 v-show="isSuccess">妞妞 </h1>
+		</div>
+
+		<!--v-model 双向绑定-->
+		<div id="myI">
+			<input type="text" v-model="name" style="width: 100px; height: 100px;">
+		</div>
+
+		 <!--v-bind 绑定属性-->
+		<div id="myDiv1" v-bind:class=""></div>
+
+		 <!--v-for 循环指令-->
+		<ul id="myCities">
+			<li v-for="city in cities">{{city}}</li>
+		</ul>
+		<script type="application/javascript">
+			
+			new Vue({
+				el:"#myId",
+				data: {         // 绑定的参数
+					message:"hello world",
+				}
+			});
+			// 创建vue对象
+			new Vue({
+				el:"#myBtn",  // 需要操作的元素
+				methods:{      // 执行的函数
+					"testClick": function () {
+						alert("hello world");
+					}
+				}
+			});
+			// vue 使用了现代前端开发的主流模板语法，使用{{}} 进行参数的绑定，其提供了多种的参数绑定方式
+			// 采用v-html实现html代码的绑定
+			//  如果绑定的是 html ，则不能够直接使用{{}} 进行绑定，该语法结构类似于innerText 输任何信息都显示文本
+			//  会将任何信息都以普通文本的形式绑定到该参数中
+			//  而需要以html代码的形式绑定时，则需要使用指令v-html实现，类似innerHTML
+			new Vue({
+				el: "#myDiv",
+				data:{
+					htmlMessage:"<h1>使用vue代码形式进行绑定</h1>"
+				}
+			});
+
+			new Vue({
+				el: "#bind",
+				data: {
+					name:"hello world"
+				}
+			});
+
+			new Vue({
+				el: "#case",
+				data: {
+					num:"82"
+				}
+			});
+			new Vue({
+				el: "#show",
+				methods: {
+					showDiv: function () {
+						// 修改css
+						document.getElementById("show").style.background = "red";
+					}
+				}
+			});
+
+			new Vue({
+				el: "#myS",
+				data: {
+					isSuccess: true
+				}
+			});
+
+			new Vue({
+				el: "#myCities",
+				data: {         // 绑定的参数
+					cities: ["宝鸡","西安","咸阳"],
+				}
+			});
+
+		</script>
+
+
+	</body>
+</html>
